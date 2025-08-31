@@ -25,6 +25,12 @@ This guide provides steps to set up and run Celery with Redis for the CRM applic
    python manage.py migrate
    ```
 
+4. **Start Django Development Server** (in a separate terminal):
+   ```
+   python manage.py runserver
+   ```
+   This is required for the Celery task to connect to the GraphQL endpoint at http://localhost:8000/graphql.
+
 ## Running Celery
 
 1. **Start Celery Worker**:
