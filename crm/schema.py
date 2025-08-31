@@ -1,6 +1,7 @@
 import graphene
 from graphene_django import DjangoObjectType
-from crm.models import Product
+from crm.models import Product, Customer, Order
+from django.db.models import Sum
 
 class ProductType(DjangoObjectType):
     class Meta:
@@ -33,5 +34,17 @@ class Mutation(graphene.ObjectType):
 
 class Query(graphene.ObjectType):
     hello = graphene.String(default_value="Hello, world!")
+    total_customers = graphene.Int()
+    total_orders = graphene.Int()
+    total_revenue = graphene.Float()
+
+    def resolve_total_customers(self, info):
+        return Customer.objects.count()
+
+    def resolve_total_orders(self, info):
+        return Order.objects.count()
+
+    def resolve_total_revenue(self, info):
+        return Order.objects.aggregate(total=Sum('total_amount'))['total'] or 0
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

@@ -1,2 +1,5 @@
 django-crontab
 gql
+celery
+django-celery-beat
+redis

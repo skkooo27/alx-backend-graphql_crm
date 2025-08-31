@@ -20,6 +20,15 @@
 - [x] Update crm/settings.py to add CRONJOBS for low-stock updates
 - [x] Update requirements.txt to include gql library
 
+## Task 4: Celery Task for Generating CRM Reports (Optional)
+- [x] Update requirements.txt to add celery, django-celery-beat, redis
+- [x] Create crm/celery.py to initialize Celery app with Redis broker
+- [x] Update crm/__init__.py to load Celery app
+- [x] Create crm/tasks.py with generate_crm_report task
+- [x] Update crm/settings.py to add django_celery_beat to INSTALLED_APPS and configure CELERY_BEAT_SCHEDULE
+- [x] Update crm/schema.py to add totalCustomers, totalOrders, totalRevenue queries
+- [x] Create crm/README.md with setup steps
+
 ## General
 - [x] Ensure all files are created in correct directories
 - [ ] Test scripts and cron jobs (user action)
