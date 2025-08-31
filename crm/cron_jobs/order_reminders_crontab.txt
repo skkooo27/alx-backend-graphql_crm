@@ -1,0 +1,3 @@
+# Cron job to run send_order_reminders.py daily at 8:00 AM
+# Update the path below to the absolute path of the script on your system
+0 8 * * * /usr/bin/python3 /absolute/path/to/crm/cron_jobs/send_order_reminders.py
