@@ -89,6 +89,34 @@ This guide provides comprehensive steps to set up and run the CRM application wi
   celery -A crm call crm.tasks.generate_crm_report
   ```
 
+## 4. Document Setup
+
+Follow these steps to set up and run the CRM application:
+
+1. **Install Redis and dependencies**  
+   - On Ubuntu/Debian: `sudo apt-get install redis-server`  
+   - On macOS: `brew install redis`  
+   - On Windows: Download from https://redis.io/download and follow installation instructions  
+   - Start Redis server: `redis-server`
+
+2. **Run migrations**  
+   ```bash
+   python manage.py migrate
+   ```
+
+3. **Start Celery worker**  
+   ```bash
+   celery -A crm worker -l info
+   ```
+
+4. **Start Celery Beat**  
+   ```bash
+   celery -A crm beat -l info
+   ```
+
+5. **Verify logs**  
+   Check the log file at `/tmp/crm_report_log.txt` for task execution logs.
+
 ## Notes
 - Ensure Redis is running on `localhost:6379` (default).
 - GraphQL queries can be tested using tools like GraphiQL or Postman.
