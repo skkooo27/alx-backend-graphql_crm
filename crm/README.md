@@ -1,96 +1,63 @@
 # CRM Setup Guide
 
-This guide provides comprehensive steps to set up and run the CRM application with Django, GraphQL, Celery, and Redis.
+This guide provides the steps to set up and run the CRM application.
 
 ## Prerequisites
+
 - Python 3.x
-- Django
 - Redis server
-- Git (for cloning if needed)
+- Virtual environment (recommended)
 
-## Installation Steps
+## Setup Steps
 
-1. **Clone the Repository** (if not already done):
-   ```
-   git clone <repository-url>
-   cd alx-backend-graphql_crm
-   ```
+### 1. Install Redis and Dependencies
 
-2. **Set Up Virtual Environment**:
-   ```
-   python -m venv venv
-   # On Windows:
-   venv\Scripts\activate
-   # On macOS/Linux:
-   source venv/bin/activate
-   ```
+First, install Redis on your system. On Windows, you can use Chocolatey or download from the official site. On Linux/Mac, use your package manager.
 
-3. **Install Python Dependencies**:
-   ```
-   pip install -r requirements.txt
-   ```
+Then, install the Python dependencies:
 
-4. **Set Environment Variables**:
-   - Update `crm/settings.py` and replace `SECRET_KEY = 'your-secret-key-here'` with a secure key.
-   - Optionally, set `DEBUG = False` for production.
+```bash
+pip install -r requirements.txt
+```
 
-5. **Run Django Migrations**:
-   ```
-   python manage.py migrate
-   ```
+### 2. Run Migrations
 
-6. **Create Superuser** (optional, for admin access):
-   ```
-   python manage.py createsuperuser
-   ```
+Apply the database migrations:
 
-7. **Install and Start Redis**:
-   - On Ubuntu/Debian: `sudo apt-get install redis-server`
-   - On macOS: `brew install redis`
-   - On Windows: Download from https://redis.io/download and follow installation instructions
-   - Start Redis: `redis-server`
+```bash
+python manage.py migrate
+```
 
-8. **Start Django Development Server**:
-   ```
-   python manage.py runserver
-   ```
-   The server will run on http://localhost:8000. GraphQL endpoint is available at http://localhost:8000/graphql.
+### 3. Start Celery Worker
 
-## Running Celery
+Start the Celery worker to process background tasks:
 
-1. **Start Celery Worker** (in a separate terminal):
-   ```
-   celery -A crm worker -l info
-   ```
+```bash
+celery -A crm worker -l info
+```
 
-2. **Start Celery Beat** (in a separate terminal):
-   ```
-   celery -A crm beat -l info
-   ```
+### 4. Start Celery Beat
 
-## Cron Jobs and Management Commands
+Start Celery Beat for scheduled tasks:
 
-1. **Run Management Command for Cleaning Inactive Customers**:
-   ```
-   python manage.py clean_inactive_customers
-   ```
+```bash
+celery -A crm beat -l info
+```
 
-2. **Set Up Cron Jobs** (using the provided scripts):
-   - For customer cleanup: Use `crm/cron_jobs/clean_inactive_customers.sh` or `crm/cron_jobs/customer_cleanup_crontab.txt`
-   - For order reminders: Run `python crm/cron_jobs/send_order_reminders.py`
+### 5. Verify Logs
 
-## Verification
+Check the logs in the specified file to ensure everything is running correctly:
 
-- Access GraphQL at http://localhost:8000/graphql to query CRM data.
-- The `generate_crm_report` task runs every Monday at 6:00 AM via Celery Beat.
-- Check logs in `/tmp/crm_report_log.txt`, `/tmp/customer_cleanup_log.txt`, and `/tmp/order_reminders_log.txt`.
-- Manually trigger tasks:
-  ```
-  celery -A crm call crm.tasks.generate_crm_report
-  ```
+```bash
+tail -f /tmp/crm_report_log.txt
+```
 
-## Notes
-- Ensure Redis is running on `localhost:6379` (default).
-- GraphQL queries can be tested using tools like GraphiQL or Postman.
-- For production, configure proper environment variables and security settings.
-- The application uses SQLite by default; update `DATABASES` in `settings.py` for other databases.
+## Running the Application
+
+After completing the setup steps, you can run the Django development server:
+
+```bash
+python manage.py runserver
+```
+
+Ensure all services (Redis, Celery worker, Celery beat) are running in the background.
