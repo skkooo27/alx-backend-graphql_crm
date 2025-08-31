@@ -1,3 +1,1 @@
-# Cron job to run clean_inactive_customers.sh every Sunday at 2:00 AM
-# Update the path below to the absolute path of the script on your system
-0 2 * * 0 /bin/bash /absolute/path/to/crm/cron_jobs/clean_inactive_customers.sh
+0 2 * * 0 /path/to/alx-backend-graphql_crm/crm/cron_jobs/clean_inactive_customers.sh

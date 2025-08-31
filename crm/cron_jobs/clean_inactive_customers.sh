@@ -11,7 +11,7 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")/.."  # Assuming crm is in project root
 cd "$PROJECT_DIR"
 
 # Execute Django shell command to delete inactive customers
-DELETED_COUNT=$(python manage.py shell -c "
+count=$(python manage.py shell -c "
 from crm.models import Customer
 from datetime import datetime, timedelta
 cutoff = datetime.now() - timedelta(days=365)
@@ -20,6 +20,6 @@ print(deleted[0])
 ")
 
 # Log the result
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Deleted $DELETED_COUNT inactive customers" >> /tmp/customer_cleanup_log.txt
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Deleted $count inactive customers" >> /tmp/customer_cleanup_log.txt
 
-echo "Customer cleanup completed. Deleted $DELETED_COUNT customers."
+echo "Customer cleanup completed. Deleted $count customers."
