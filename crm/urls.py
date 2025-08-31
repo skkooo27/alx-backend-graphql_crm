@@ -1,5 +1,7 @@
 from django.urls import path
+from graphene_django.views import GraphQLView
+from crm.schema import schema
 
 urlpatterns = [
-    # Add URL patterns here
+    path('graphql/', GraphQLView.as_view(graphene_schema=schema)),
 ]

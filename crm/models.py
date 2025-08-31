@@ -8,8 +8,15 @@ class Customer(models.Model):
     def __str__(self):
         return self.name
 
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+    stock = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
 class Order(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='order')
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='orders')
     order_date = models.DateTimeField(auto_now_add=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
 
